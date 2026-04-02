@@ -1,0 +1,4 @@
+0101019999 Randomsdotter Student 7.5
+0202028888 Studentdotter She 15
+0302017777 Studentsson He 4.5
+0302016666 Randomsson Student 3.0
