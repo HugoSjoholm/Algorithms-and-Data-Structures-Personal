@@ -3,7 +3,9 @@
 public class StudentAgeComparator {
 
  // add your code here and update the class
-
+  public static int cleaString(Student s) {
+    int year = Integer.parseInt(s.personNumber.substring(0, 2));
+  }
 
   public static void main(String[] args) {
     Student a = new Student("0101019999", "Student", "Randomsdotter");
@@ -19,7 +21,7 @@ public class StudentAgeComparator {
     GenericArraySupport.printlns(four);
     System.out.println();
 
-    // methods developed by the student
-
-   }
+    
+  }
+  // methods developed by the student
 }
