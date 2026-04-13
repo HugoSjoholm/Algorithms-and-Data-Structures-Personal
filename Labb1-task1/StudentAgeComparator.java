@@ -11,7 +11,7 @@ public class StudentAgeComparator {
 
       return text.substring(start, end);
   }
-  public static long getEpochFromStudent(Student s) {
+  public static long getEpochAge(Student s) {
     String pn = getPersonNumber(s);   // example: 0101019999
 
     int yy = Integer.parseInt(pn.substring(0, 2));
@@ -46,9 +46,8 @@ public class StudentAgeComparator {
     Student[] fourSorted = {a, b, c, d};;
     Student swap = null;
     for (int i = 0; i < fourSorted.length; i++) {
-      long tmpAge = getEpochFromStudent(fourSorted[i]);
       for (int j = 0; j < fourSorted.length - 1; j++) {
-        if (tmpAge > getEpochFromStudent(fourSorted[j])) {
+        if (getEpochAge(fourSorted[j]) > getEpochAge(fourSorted[j + 1])) {
           swap = fourSorted[j];
           fourSorted[j] = fourSorted[j + 1];
           fourSorted[j + 1] = swap;
