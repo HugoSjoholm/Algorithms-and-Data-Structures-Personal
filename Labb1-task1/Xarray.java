@@ -32,7 +32,7 @@ public class Xarray<T>{
 
   public T lookup(int i){
     if (i >= size || i < 0) { //i can not be negative or more then the current lenght   (seize)
-      throw new IndexOutOfBoundsException()
+      throw new IndexOutOfBoundsException();
     }
     return data[i];
   }
@@ -40,7 +40,7 @@ public class Xarray<T>{
 
   public void update(int i, T x){
     if (i >= size || i < 0) { //i can not be negative or more then the current lenght   (seize)
-      throw new IndexOutOfBoundsException()
+      throw new IndexOutOfBoundsException();
     }
     data[i] = x;
   }
