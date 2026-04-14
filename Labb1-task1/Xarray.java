@@ -1,16 +1,54 @@
 public class Xarray<T>{
 
-  public Xarray(){}
-
-  public void add(T x){}
-
-  public T lookup(int i){return null;}
+  private T[] data;
+  private int capacity;
+  private int size;
 
 
-  public void update(int i, T x){}
+  public Xarray(){
+    capacity = 10;
+    size = 0;
+    data = (T[]) new Object[capacity];
+  }
+
+  public void add(T x){
+    if (size < capacity) {
+      data[size] = x;
+      size++;
+    }
+    else {
+      T[] tmp = (T[]) new Object[capacity*2];
+      capacity = capacity*2;
+      for (int i = 0; i < size; i++) {
+        tmp[i] = data[i];
+      }
+      tmp[size] = x;
+      size++;
+
+      data = tmp;
+    }
+    
+  }
+
+  public T lookup(int i){
+    if (i >= size || i < 0) { //i can not be negative or more then the current lenght   (seize)
+      throw new IndexOutOfBoundsException()
+    }
+    return data[i];
+  }
 
 
-  public int size(){return 0;}
+  public void update(int i, T x){
+    if (i >= size || i < 0) { //i can not be negative or more then the current lenght   (seize)
+      throw new IndexOutOfBoundsException()
+    }
+    data[i] = x;
+  }
+
+
+  public int size(){
+    return size;
+  }
   /*
     Small unit test
   */
