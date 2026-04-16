@@ -12,6 +12,26 @@ public class DoublyLinkedList<T> implements Iterable<T> {
         ListNode(T value) {
             this.value = value;
         }
+       @Override
+        public String toString() {
+            String output = "";
+            if (prev == null) {
+                output += "null";
+            } else {
+                output += String.valueOf(prev.value);
+            }
+
+            output += " <- " + value + " -> ";
+
+            if (next == null) {
+                output += "null";
+            } else {
+                output += String.valueOf(next.value);
+            }
+
+            //prev + " <- " + value + " -> " + next
+            return output;
+        }
     }
 
     private ListNode head;
@@ -21,8 +41,8 @@ public class DoublyLinkedList<T> implements Iterable<T> {
     // Create an empty list.
     public DoublyLinkedList() {
         size = 0;
-        head = new ListNode(null);
-        tail = new ListNode(null);
+        head = null;
+        tail = null;
     }
 
     // Add t to the end of the list.
@@ -119,11 +139,20 @@ public class DoublyLinkedList<T> implements Iterable<T> {
      */
     public int remove(T t) {
         // TODO
+        int count = 0;
 
+        ListNode current = head;
+        for (int i = 0; i < size; i++) {
+            if (current.value == t) {
+                remove(i);
+                count ++;
+                i--;
+            }
 
+            current = current.next;
+        }
 
-
-        return 0;
+        return count;
     }
 
     // Removes the value at position index and returns that value.
@@ -186,35 +215,103 @@ public class DoublyLinkedList<T> implements Iterable<T> {
     // Checks if the list is empty.
     public boolean isEmpty() {
         // TODO
-        return false;
+        return size==0;
     }
 
     // Returns the size of the list.
     public int size() {
         // TODO
-        return 0;
+        return size;
     }
 
     // Removes all elements in the list. Makes it empty.
     public void clear() {
-        // TODO
+        head = null;
+        tail = null;
+        size = 0;
     }
 
     // Add t after the first value smaller than t when scanning backwards.
     public void addAtFirstSmaller(T t, Comparator<T> cmp) {
-        // TODO
+        ListNode current = tail;
+
+        while (current != null) {
+            if (cmp.compare(current.value, t) < 0) {
+                if (current == tail) {
+                    add(t);
+                } else {
+                    ListNode newNode = new ListNode(t);
+                    newNode.next = current.next;
+                    newNode.prev = current;
+                    current.next.prev = newNode;
+                    current.next = newNode;
+                    size++;
+                }
+                return;
+            }
+            current = current.prev;
+        }
+
+        // no smaller found → insert at front
+        ListNode newNode = new ListNode(t);
+        if (size == 0) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            newNode.next = head;
+            head.prev = newNode;
+            head = newNode;
+        }
+        size++;
     }
 
     @Override
     public String toString() {
-        // TODO
-        return "";
+        String output = "{";
+
+        ListNode current = head;
+        if (current != null) {
+            output += current.value;
+            current = current.next;
+        }
+        else {
+            output = "{null, null}";
+            return output;
+        }
+
+
+        while (current != null) {
+            output += ", " + current.value;
+            current = current.next;
+        }
+
+        output += "}";
+        return output;
     }
 
     @Override
     public Iterator<T> iterator() {
-        // TODO
-        return null;
+        Iterator<T> it = new Iterator<T>() {
+            private ListNode current = head;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public T next() {
+                if (current == null) {
+                    throw new NoSuchElementException();
+                }
+
+                T value = current.value;
+                current = current.next;
+                return value;
+            }
+        };
+
+        return it;
     }
 
     // Optional for checking ---
@@ -224,9 +321,50 @@ public class DoublyLinkedList<T> implements Iterable<T> {
         }
     }
 
+    //när skulle man använda dessa????????
     private void checkPositionIndex(int index) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", size: " + size);
         }
+    }
+    public static void main(String[] args) {
+
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        System.out.println("Efter add: " + list);
+
+        list.add(1, 99);
+        System.out.println("Efter add på index 1: " + list);
+
+        System.out.println("get(1): " + list.get(1));
+        System.out.println("först: " + list.getFirst());
+        System.out.println("sista: " + list.getLast());
+
+        System.out.println("remove(1): " + list.remove(1));
+        System.out.println("Efter remove index 1: " + list);
+
+        list.add(2);
+        list.add(2);
+        System.out.println("pre remove(T): " + list);
+        System.out.println("antal borttagna (2): " + list.remove((Integer)2));
+        System.out.println("Efter remove(T): " + list);
+
+        System.out.println("tom: " + list.isEmpty());
+
+        System.out.print("går igenom: ");
+        for (int x : list) {
+            System.out.print(x + " ");
+        }
+        System.out.println();
+
+        Comparator<Integer> cmp = Integer::compare;
+        list.addAtFirstSmaller(4, cmp);
+        System.out.println("efter addAtFirstSmaller(4): " + list);
+
+        list.clear();
+        System.out.println("efter clear: " + list + " | är tom: " + list.isEmpty());
     }
 }
