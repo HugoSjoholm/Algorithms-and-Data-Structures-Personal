@@ -10,9 +10,10 @@ public class ReverseDLL {
         DoublyLinkedList<String> original = new DoublyLinkedList<>();
         DoublyLinkedList<String> test = new DoublyLinkedList<>();
 
-        for (String s : args) {
-            original.add(s);
-            test.add(s);
+        for (int i = 0; i < Integer.parseInt(args[0]); i++) {
+            int rnd = (int)(Math.random()*100 + 65); 
+            original.add((rnd) + "");
+            test.add((rnd) + "");
         }
 
         reverse(test);
