@@ -20,35 +20,96 @@ public class DoublyLinkedList<T> implements Iterable<T> {
 
     // Create an empty list.
     public DoublyLinkedList() {
-        // TODO
+        size = 0;
+        head = new ListNode(null);
+        tail = new ListNode(null);
     }
 
     // Add t to the end of the list.
     public void add(T t) {
-        // TODO
+        ListNode newNode = new ListNode(t);
+
+        if (size == 0) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            newNode.prev = tail;
+            tail = newNode;
+        }
+
+        size++;
     }
 
     // Add t at location index in the list.
     public void add(int index, T t) {
-        // TODO
+        //checks for valid index
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        //handles case for when index is the last element/tail
+        if (index == size) {
+            add(t);
+            return;
+        }
+
+        ListNode newNode = new ListNode(t);
+
+
+        if (index == 0) {
+            newNode.next = head;
+
+            if (size == 0) {
+                tail = newNode;
+            } else {
+                head.prev = newNode;
+            }
+
+            head = newNode;
+        }
+        else {
+            //traverse the list untill reaching index node
+            ListNode current = head;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+
+            //actually insertion
+            newNode.next = current;
+            newNode.prev = current.prev;
+            current.prev.next = newNode;
+            current.prev = newNode;
+        }
+
+        size++;
+
     }
 
     // Returns the value at location index.
     public T get(int index) {
-        // TODO
-        return null;
+        //checks for valid index
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        ListNode current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        return current.value;
     }
 
     // Returns the first value in the list.
     public T getFirst() {
         // TODO
-        return null;
+        return head.value;
     }
 
     // Returns the last value in the list.
     public T getLast() {
         // TODO
-        return null;
+        return tail.value;
     }
 
     /*
@@ -58,13 +119,56 @@ public class DoublyLinkedList<T> implements Iterable<T> {
      */
     public int remove(T t) {
         // TODO
+
+
+
+
         return 0;
     }
 
     // Removes the value at position index and returns that value.
     public T remove(int index) {
-        // TODO
-        return null;
+         if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        ListNode current = head;
+
+        if (size == 1) {
+            T value = head.value;
+            head = null;
+            tail = null;
+            size--;
+            return value;
+        }
+
+        if (index == 0) {
+            T value = head.value;
+            head = head.next;
+            head.prev = null;
+            size--;
+            return value;
+        }
+
+        if (index == size - 1) {
+            T value = tail.value;
+            tail = tail.prev;
+            tail.next = null;
+            size--;
+            return value;
+        }
+
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        T value = current.value;
+        current.prev.next = current.next;
+        current.next.prev = current.prev;
+        size--;
+
+        return value;
+
     }
 
     // Removes and returns the last value in the list.
