@@ -3,7 +3,15 @@ import java.util.Comparator;
 public class SortDLL {
 
     public static <T> void dllInsertionSort(T[] a, Comparator<T> cmp) {
-        // TODO
+        DoublyLinkedList<T> dll = new DoublyLinkedList<>();
+
+        for (int i = 0; i < a.length; i++) {
+            dll.addAtFirstSmaller(a[i], cmp);
+        }
+
+        for (int i = 0; i < a.length; i++) {
+            a[i] = dll.get(i);
+        }
     }
 
     public static void main(String[] args) {

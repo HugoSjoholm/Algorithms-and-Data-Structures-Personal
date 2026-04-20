@@ -231,7 +231,7 @@ public class DoublyLinkedList<T> implements Iterable<T> {
         size = 0;
     }
 
-    // Add t after the first value smaller than t when scanning backwards.
+        // Add t after the first value smaller than t when scanning backwards.
     public void addAtFirstSmaller(T t, Comparator<T> cmp) {
         ListNode current = tail;
 
@@ -249,11 +249,12 @@ public class DoublyLinkedList<T> implements Iterable<T> {
                 }
                 return;
             }
+
             current = current.prev;
         }
 
-        // no smaller found → insert at front
         ListNode newNode = new ListNode(t);
+
         if (size == 0) {
             head = newNode;
             tail = newNode;
@@ -262,9 +263,9 @@ public class DoublyLinkedList<T> implements Iterable<T> {
             head.prev = newNode;
             head = newNode;
         }
+
         size++;
     }
-
     @Override
     public String toString() {
         String output = "{";
