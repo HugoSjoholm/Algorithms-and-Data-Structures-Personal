@@ -28,18 +28,29 @@ public class Trader extends Thread{
         sleep(1000);
       }catch( InterruptedException e){}
 
-      /*
-          * Your code here:
+      MaxPQ<StockPick> pq = new MaxPQ<StockPick>();
 
-          * 1: Empty stockPicks and add the elements
-          to an empty priority queue.
+      while (!stockPicks.isEmpty()) {
+          pq.insert(stockPicks.dequeue());
+      }
 
-          * 2: Take the largest nrPicks from the priority
-          queue and print them in priority order
-          to the file log.txt.
-          OBS: you should extend the file, not override
-          what is already there.
-      */
+      try {
+          OutputStreamWriter writer =
+              new OutputStreamWriter(new FileOutputStream("log.txt", true));
+
+          int count = 0;
+
+          while (count < nrPicks && !pq.isEmpty()) {
+              writer.write(pq.delMax().toString());
+              writer.write("\n");
+              count++;
+          }
+
+          writer.close();
+      }
+      catch (IOException e) {
+          System.out.println("Could not write to log.txt");
+      }
       time++;
       System.out.println("Time elapsed: "
                          + time
