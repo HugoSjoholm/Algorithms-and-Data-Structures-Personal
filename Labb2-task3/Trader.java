@@ -52,9 +52,7 @@ public class Trader extends Thread{
           System.out.println("Could not write to log.txt");
       }
       time++;
-      System.out.println("Time elapsed: "
-                         + time
-                         + " seconds.");
+      System.out.println("Time elapsed: " + time + " seconds.");
       }
    }
 
@@ -69,20 +67,24 @@ public class Trader extends Thread{
                             "AAPL", "AMZN"};
 
         StockPicker Stockpicker1 =
-          new StockPicker("North America analyzer",
-                          stockPicks,
-                          stocks1,
-                          10);
+          new StockPicker(
+            "North America analyzer",
+            stockPicks,
+            stocks1,
+            10
+          );
 
 
         // StockPicker 2
         String[] stocks2 = {"ETH", "BTC"};
 
         StockPicker Stockpicker2 =
-          new StockPicker("Cryptocurrencices analyzer",
-                           stockPicks,
-                           stocks2,
-                           10);
+          new StockPicker(
+            "Cryptocurrencices analyzer",
+            stockPicks,
+            stocks2,
+            10
+          );
 
         // trader
         Trader trader =
