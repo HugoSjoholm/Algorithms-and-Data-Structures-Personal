@@ -2,18 +2,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-/**
- * A generic Map implementation using a closed hash table
- * with linear probing.
- */
+
 public class LinearProbingHashMap<T1, T2> {
 
     private static final int INIT_CAPACITY = 4;
 
-    private int N;          // number of key-value pairs
-    private int M;          // size of the hash table
-    private T1[] a_keys;    // keys
-    private T2[] a_values;  // values
+    private int N;          
+    private int M;          
+    private T1[] a_keys;    
+    private T2[] a_values;  
 
     public LinearProbingHashMap() {
         this(INIT_CAPACITY);
