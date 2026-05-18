@@ -1,3 +1,4 @@
+import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Scanner;
 public class AntennaGraph {
     private Graph graph;
     private HashMap<String, Antenna> antennas;
+    private HashMap<String, ArrayList<String>> neighbours;
 
     private static class Antenna {
         String name;
@@ -27,6 +29,7 @@ public class AntennaGraph {
 
     public AntennaGraph(String fileName) throws FileNotFoundException {
         antennas = new HashMap<String, Antenna>();
+        neighbours = new HashMap<String, ArrayList<String>>();
         readAntennas(fileName);
         buildGraph();
     }
@@ -58,7 +61,6 @@ public class AntennaGraph {
 
     private void buildGraph() {
         ArrayList<Antenna> list = new ArrayList<Antenna>(antennas.values());
-        HashMap<String, ArrayList<String>> neighbours = new HashMap<String, ArrayList<String>>();
 
         for (Antenna a : list) {
             neighbours.put(a.name, new ArrayList<String>());
@@ -230,6 +232,48 @@ public class AntennaGraph {
         return -1;
     }
 
+    public void draw() {
+        StdDraw.setCanvasSize(800, 800);
+        StdDraw.setXscale(0, 1000);
+        StdDraw.setYscale(0, 1000);
+        StdDraw.clear();
+        StdDraw.setPenRadius(0.001);
+
+
+        ArrayList<String> antennaNames = new ArrayList<String>(antennas.keySet());
+
+        for (int i = 0; i < antennaNames.size(); i++) {
+            String name = antennaNames.get(i);
+            Antenna a = antennas.get(name);
+
+            StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
+            StdDraw.circle(a.x, a.y, a.r);
+
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.filledCircle(a.x, a.y, 4);
+            //StdDraw.text(a.x + 10, a.y + 10, a.name);
+        }
+
+        StdDraw.setPenColor(StdDraw.BLUE);
+
+        ArrayList<String> neighbourNames = new ArrayList<String>(neighbours.keySet());
+
+        for (int i = 0; i < neighbourNames.size(); i++) {
+            String aName = neighbourNames.get(i);
+            Antenna a = antennas.get(aName);
+
+            ArrayList<String> connectedAntennas = neighbours.get(aName);
+
+            for (int j = 0; j < connectedAntennas.size(); j++) {
+                String bName = connectedAntennas.get(j);
+                Antenna b = antennas.get(bName);
+
+                StdDraw.line(a.x, a.y, b.x, b.y);
+            }
+        }
+        System.out.println("Done drawing");
+    }
+
     public static void main(String[] args) throws FileNotFoundException {
         AntennaGraph antennaGraph = new AntennaGraph(args[0]);
 
@@ -243,5 +287,7 @@ public class AntennaGraph {
             System.out.println("Shortest distance " + a + " " + b + ": " + antennaGraph.shortestDistance(a, b));
             System.out.println("Distance to border from " + a + ": " + antennaGraph.distanceToBorder(a));
         }
+
+        antennaGraph.draw();
     }
 }
